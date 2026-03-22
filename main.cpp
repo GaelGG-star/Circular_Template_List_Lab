@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <limits>
 #include "Media.h"
 #include "Podcast.h"
 #include "Song.h"
@@ -9,8 +10,6 @@
 std::string getLineInput(const std::string& prompt) {
     std::string input;
     std::cout << prompt;
-    // Clear any preceding newline characters from the buffer
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     std::getline(std::cin, input);
     return input;
 }
@@ -24,12 +23,14 @@ int getIntInput(const std::string& prompt) {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
+    // Clear the buffer after reading an integer
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     return value;
 }
 
 // === 6. Main Program Loop ===
 int main() {
-    LinkedList myPlaylist;
+    LinkedList<Media> myPlaylist;
     int choice = 0;
 
     std::cout << "Welcome to the Playlist Manager Starter Program (Polymorphic Edition)!" << std::endl;
@@ -45,13 +46,16 @@ int main() {
         std::cout << "2. Add a new Podcast" << std::endl;
         std::cout << "3. Display Playlist" << std::endl;
         std::cout << "4. Play Current Media Item" << std::endl;
-        std::cout << "5. Exit" << std::endl;
+        std::cout << "5. Play Next Track" << std::endl;
+        std::cout << "6. Exit" << std::endl;
         std::cout << "Enter your choice: ";
 
         if (!(std::cin >> choice)) {
             std::cout << "Invalid input. Exiting." << std::endl;
-            choice = 5;
+            choice = 6;
         }
+        // Clear the buffer after reading the menu choice
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         switch (choice) {
             case 1: { // Add Song
@@ -82,13 +86,16 @@ int main() {
                 myPlaylist.playCurrent();
                 break;
             case 5:
+                myPlaylist.playNext();
+                break;
+            case 6:
                 std::cout << "Exiting Playlist Manager..." << std::endl;
                 break;
             default:
                 std::cout << "Invalid menu choice. Please try again." << std::endl;
                 break;
         }
-    } while (choice != 5);
+    } while (choice != 6);
 
     // The LinkedList destructor is called automatically when 'myPlaylist' goes out of scope.
     return 0;

@@ -18,7 +18,7 @@ private:
 public:
     // Constructor
     Song(const std::string& t, const std::string& a, int d)
-    : Media(t, d) {}
+    : Media(t, d), artist(a) {}
 
     //get the artist
     std::string getArtist() const;

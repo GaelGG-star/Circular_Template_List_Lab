@@ -11,13 +11,13 @@
 // Represents a podcast episode, showing how multiple types can share the list.
 class Podcast : public Media {
 private:
-    std::string episodeTitle;
+    // 'episodeTitle' was removed; we now use 'title' from the Media base class.
     std::string host;
     int episodeNumber;
 public:
-    // Constructor
-    Podcast(const std::string& t, const std::string& h, const int d)
-    : Media(t, d) {}
+    // Constructor now initializes the base class and its own members.
+    Podcast(const std::string& t, const std::string& h, int d)
+    : Media(t, 0), host(h), episodeNumber(d) {}
 
     // Override toString() from the Media base class.
     std::string toString() const override;
